@@ -349,9 +349,4 @@ const sampleListings = [
   },
 ];
 
-const simplifiedListings = sampleListings.map(listing => ({
-  ...listing,
-  image: listing.image.url,
-}));
-
-module.exports = { data: simplifiedListings };
+module.exports = { data: sampleListings };
