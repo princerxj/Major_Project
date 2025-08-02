@@ -1,22 +1,261 @@
 <% layout("/layouts/boilerplate") %>
-<div class="row row-cols-lg-3 row-cols-md-2 row-cols-sm-1 mt-3">
-  <%for(let listing of allListings) { %>
-  <a href="/listings/<%=listing._id%>" class="listing-link">
-    <div class="card col listing-card">
-      <img
-        src="<%=listing.image.url%>"
-        class="card-img-top"
-        alt="..."
-        style="height: 20rem"
-      />
-      <div class="card-img-overlay"></div>
-      <div class="card-body">
-        <p class="card-text">
-          <b><%=listing.title%></b> <br />
-          &#8377; <%=listing.price.toLocaleString("en-IN") %>/night
-        </p>
-      </div>
-    </div>
-  </a>
-  <% } %>
+
+<!-- Hero Section -->
+<div class="hero-section mb-5">
+  <div class="hero-content text-center">
+    <h1 class="hero-title">Find your perfect getaway</h1>
+    <p class="hero-subtitle">Discover unique places to stay around the world</p>
+  </div>
 </div>
+
+<!-- Listings Grid -->
+<div class="container-fluid px-4">
+  <div class="row g-4">
+    <% for(let listing of allListings) { %>
+      <div class="col-lg-4 col-md-6 col-sm-12">
+        <a href="/listings/<%=listing._id%>" class="listing-link text-decoration-none">
+          <div class="listing-card h-100">
+            <div class="image-container">
+              <img
+                src="<%=listing.image.url%>"
+                class="listing-image"
+                alt="<%=listing.title%>"
+                loading="lazy"
+              />
+              <div class="image-overlay">
+                <div class="overlay-content">
+                  <i class="fas fa-heart wishlist-icon"></i>
+                </div>
+              </div>
+            </div>
+            
+            <div class="card-content">
+              <div class="listing-info">
+                <h5 class="listing-title"><%=listing.title%></h5>
+                <p class="listing-location">
+                  <i class="fas fa-map-marker-alt location-icon"></i>
+                  <%=listing.location%>, <%=listing.country%>
+                </p>
+              </div>
+              
+              <div class="listing-footer">
+                <div class="price-section">
+                  <span class="price">₹<%=listing.price.toLocaleString("en-IN")%></span>
+                  <span class="price-text">per night</span>
+                </div>
+                <div class="rating-section">
+                  <i class="fas fa-star rating-star"></i>
+                  <span class="rating-text">4.8</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </a>
+      </div>
+    <% } %>
+  </div>
+</div>
+
+<!-- Custom Styles -->
+<style>
+  .hero-section {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white;
+    padding: 80px 0;
+    margin: -20px -15px 0 -15px;
+  }
+
+  .hero-title {
+    font-size: 3.5rem;
+    font-weight: 700;
+    margin-bottom: 1rem;
+    text-shadow: 0 2px 4px rgba(0,0,0,0.3);
+  }
+
+  .hero-subtitle {
+    font-size: 1.2rem;
+    opacity: 0.9;
+    font-weight: 300;
+  }
+
+  .listing-card {
+    background: white;
+    border-radius: 16px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    overflow: hidden;
+    position: relative;
+  }
+
+  .listing-card:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);
+  }
+
+  .image-container {
+    position: relative;
+    overflow: hidden;
+    height: 240px;
+  }
+
+  .listing-image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.3s ease;
+  }
+
+  .listing-card:hover .listing-image {
+    transform: scale(1.05);
+  }
+
+  .image-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: linear-gradient(180deg, transparent 60%, rgba(0,0,0,0.1));
+    opacity: 0;
+    transition: opacity 0.3s ease;
+  }
+
+  .listing-card:hover .image-overlay {
+    opacity: 1;
+  }
+
+  .overlay-content {
+    position: absolute;
+    top: 16px;
+    right: 16px;
+  }
+
+  .wishlist-icon {
+    color: white;
+    font-size: 1.2rem;
+    background: rgba(0, 0, 0, 0.3);
+    padding: 8px;
+    border-radius: 50%;
+    backdrop-filter: blur(10px);
+    cursor: pointer;
+    transition: all 0.3s ease;
+  }
+
+  .wishlist-icon:hover {
+    color: #ff5a5f;
+    background: white;
+  }
+
+  .card-content {
+    padding: 24px;
+  }
+
+  .listing-info {
+    margin-bottom: 16px;
+  }
+
+  .listing-title {
+    font-size: 1.1rem;
+    font-weight: 600;
+    color: #222;
+    margin-bottom: 8px;
+    line-height: 1.3;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+
+  .listing-location {
+    color: #717171;
+    font-size: 0.9rem;
+    margin: 0;
+    display: flex;
+    align-items: center;
+  }
+
+  .location-icon {
+    margin-right: 6px;
+    color: #ff5a5f;
+  }
+
+  .listing-footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding-top: 16px;
+    border-top: 1px solid #f0f0f0;
+  }
+
+  .price-section {
+    display: flex;
+    align-items: baseline;
+    gap: 4px;
+  }
+
+  .price {
+    font-size: 1.1rem;
+    font-weight: 700;
+    color: #222;
+  }
+
+  .price-text {
+    font-size: 0.85rem;
+    color: #717171;
+  }
+
+  .rating-section {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+  }
+
+  .rating-star {
+    color: #ffd700;
+    font-size: 0.9rem;
+  }
+
+  .rating-text {
+    font-size: 0.85rem;
+    font-weight: 500;
+    color: #222;
+  }
+
+  .listing-link {
+    color: inherit;
+    text-decoration: none !important;
+  }
+
+  .listing-link:hover {
+    color: inherit;
+  }
+
+  @media (max-width: 768px) {
+    .hero-title {
+      font-size: 2.5rem;
+    }
+    
+    .hero-section {
+      padding: 60px 0;
+    }
+    
+    .image-container {
+      height: 200px;
+    }
+    
+    .card-content {
+      padding: 20px;
+    }
+  }
+
+  @media (max-width: 576px) {
+    .hero-title {
+      font-size: 2rem;
+    }
+    
+    .container-fluid {
+      padding-left: 16px;
+      padding-right: 16px;
+    }
+  }
+</style>
